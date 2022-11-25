@@ -1,7 +1,7 @@
 const bookModel = require("../Models/BookModels")
 
 
-const addBooks = async (req, res) => {
+const createBook = async (req, res) => {
     try {
             const bookDoc = await bookModel.create(req.body)
             res.status(201).json({data:bookDoc,message: "Book added successfully"})
@@ -10,7 +10,7 @@ const addBooks = async (req, res) => {
     }
 }
 
-const fetchBooks = async (req, res) => {
+const getBook = async (req, res) => {
     try {
         const filter = req.body
         
@@ -31,4 +31,4 @@ const fetchBooks = async (req, res) => {
 
 
 module.exports={
-    addBooks,fetchBooks }
+    createBook,getBook }

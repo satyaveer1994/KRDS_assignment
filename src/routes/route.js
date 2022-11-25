@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const passport = require('passport');
-const { fetchBooks, addBooks } = require("../Controllers/BookControllers")
-const { login, addToList, fetchUser,removeBookFromList ,deleteList} = require("../Controllers/UserController")
+const bookController = require("../Controllers/BookControllers")
+const userController= require("../Controllers/UserController")
+
 
 
 /* ================= GOOGLE AUTHENTICATIONS =========================== */
@@ -15,7 +16,7 @@ router.get("/auth/callback", passport.authenticate( 'google', {
     successRedirect: '/api/auth/callback/success',
     failureRedirect: 'api/auth/callback/failure'
 }))
-router.get('/auth/callback/success' ,login );
+router.get('/auth/callback/success',userController.login );
 router.get('/api/auth/callback/failure', (req,res) =>{
     res.status(500).send({error:"log in error ,please try again"})
 })
@@ -33,16 +34,16 @@ const AuthMiddleware = (req, res,next) =>{
 // router.get("/protected", AuthMiddleware ,(req,res)=>{
 //     res.send("PROTECTED")
 // })
-router.post('/book',addBooks)
+router.post('/book',bookController.createBook)
 
 
-router.get('/books',fetchBooks);
+router.get('/books',bookController.getBook);
 
-router.post('/list/:id',addToList);
-router.put('/list/:id',removeBookFromList)
-router.delete('/list/:id',deleteList)
+router.post('/list/:id',userController.addToList);
+router.put('/list/:id',userController.removeBookFromList)
+router.delete('/list/:id',userController.deleteList)
 
-router.post('/user',fetchUser)
+router.post('/user',userController.fetchUser)
 
 
 
